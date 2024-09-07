@@ -8,12 +8,17 @@ staticfiles
 # Ignore unnecessary frontend files
 frontend/node_modules
 frontend/build
+frontend/package-lock.json
 
 # Ignore logs and temporary files
 *.log
 *.sqlite3
 *.swp
 tmp/
-.idea
-.vscode
+
+# Ignore IDE and editor settings
+.idea/
+.vscode/
+
+# Ignore Dockerfile (if needed)
 Dockerfile
