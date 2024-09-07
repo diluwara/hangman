@@ -1,0 +1,19 @@
+# Ignore Python bytecode and virtual environment
+*.pyc
+*.pyo
+__pycache__/
+venv/
+staticfiles
+
+# Ignore unnecessary frontend files
+frontend/node_modules
+frontend/build
+
+# Ignore logs and temporary files
+*.log
+*.sqlite3
+*.swp
+tmp/
+.idea
+.vscode
+Dockerfile
