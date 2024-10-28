@@ -46,7 +46,7 @@ const App: React.FC = () => {
       const response = await makeGuess(gameId, letter);
       setGameState(response.data);
       setMessage(
-        response.data.correct_guess ? "Correct guess!" : `Incorrect guess.${incorrectGuesses}`
+        response.data.correct_guess ? "Correct guess!" : "Incorrect guess."
       );
       setGuessedLetters([...guessedLetters, letter]);
 
