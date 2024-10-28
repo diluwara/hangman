@@ -10,6 +10,7 @@ const App: React.FC = () => {
   const [gameId, setGameId] = useState<number | null>(null);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
+  const [incorrectGuesses, setIncorrectGuesses] = useState<string[]>([]);
   const [message, setMessage] = useState<string>("");
 
   // Start a new game
@@ -20,6 +21,7 @@ const App: React.FC = () => {
       fetchGameState(response.data.game_id);
       setMessage("New game started!");
       setGuessedLetters([]); // Reset guessed letters when a new game starts
+      setIncorrectGuesses([]); // Reset incorrect guesses when a new game starts
     } catch (error) {
       console.error("Error starting a new game:", error);
       setMessage("Failed to start a new game.");
@@ -44,9 +46,14 @@ const App: React.FC = () => {
       const response = await makeGuess(gameId, letter);
       setGameState(response.data);
       setMessage(
-        response.data.correct_guess ? "Correct guess!" : "Incorrect guess."
+        response.data.correct_guess ? "Correct guess!" : `Incorrect guess.${incorrectGuesses}`
       );
-      setGuessedLetters([...guessedLetters, letter]); // Add guessed letter to the array
+      setGuessedLetters([...guessedLetters, letter]);
+
+      // If the guess is incorrect, add it to the incorrectGuesses array
+      if (!response.data.correct_guess) {
+        setIncorrectGuesses((prev) => [...prev, letter]);
+      }
     } catch (error) {
       console.error("Error making a guess:", error);
       setMessage("Failed to make a guess.");
@@ -58,6 +65,7 @@ const App: React.FC = () => {
     setGameId(null);
     setGameState(null);
     setGuessedLetters([]);
+    setIncorrectGuesses([]);
     setMessage("Game reset.");
   };
 
@@ -105,7 +113,7 @@ const App: React.FC = () => {
               Current Word: {gameState?.current_state}
             </Typography>
             <Typography variant="body1">
-              Incorrect Guesses: {gameState?.incorrect_guesses}
+              Incorrect Guesses: {incorrectGuesses.join(", ")}
             </Typography>
             <Typography variant="body1">
               Remaining Guesses: {gameState?.remaining_guesses}
